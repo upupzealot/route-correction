@@ -1,0 +1,11 @@
+{
+  "name": "route-correction",
+  "version": "0.0.2",
+  "description": "",
+  "main": "route.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Eric",
+  "license": "MIT"
+}
