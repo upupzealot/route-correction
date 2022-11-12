@@ -27,6 +27,7 @@
 ### 成员方法 
 #### correct 方法
 `const res = correct(point);`
+将输入点位纠偏到路线的最近点位，并返回纠偏后点位相关信息
 ##### 入参
 | 字段 | 类型 | 描述 |
 |-----|------|-----|
@@ -42,3 +43,19 @@
 | segment | Segment | 最近点所在线段 |
 | index | Number | 最近点所在线段在 segments 数组中的下标 |
 | distance | Number | 最近点距离路径起始点的距离（米） |
+
+#### pointAt 方法
+`const point = pointAt(distance)`
+查询沿路线行进指定距离后的所在点位，并返回点位相关信息
+##### 入参
+| 字段 | 类型 | 描述 |
+|-----|------|-----|
+| distance | Number | 距离路径起始点的距离（米） |
+##### 返回值
+| 字段 | 类型 | 描述 |
+|-----|------|-----|
+| point | Point | 查询结果所在点位 |
+| point.lng / point.lat | Number | 所在点的经纬度 |
+| point.distance | Number | 实际距离（限定 0~路径总长） |
+| direction | Number | 所在点路径朝向（弧度） |
+| directionInDegree | Number | 所在点路径朝向（角度） |
