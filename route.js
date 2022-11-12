@@ -1,7 +1,8 @@
 export default class Route {
-  constructor(points, opt = {}) {
+  constructor(points) {
     this.points = points;
-    this.opt = opt || {};
+    // 后续可使用 setDistanceFunc 传入地图组件的测距函数
+    this.distanceFunc = null;
 
     if(!points.length) return;
     this.maxLng = points[0].lng;
@@ -43,7 +44,7 @@ export default class Route {
     for(let i = 0; i < points.length - 1; i++) {
       const p0 = this.points[i];
       const p1 = this.points[i + 1];
-      const length = this.distanceBetweenPoints(p0, p1);
+      const length = this.distanceBetween(p0, p1);
       // 计算路径朝向
       let direction = null;
       const dLng = p1.lng - p0.lng;
@@ -77,19 +78,30 @@ export default class Route {
     }
     this.totalDistance = distance;
   }
+  setDistanceFunc(distanceFunc) {
+    this.distanceFunc = distanceFunc;
+    let distance = 0;
+    for (let i = 0; i < this.segments.length; i++) {
+      const segment = this.segments[i];
+      segment.length = this.distanceBetween(segment.p0, segment.p1);
+      segment.distance = distance;
+      distance += segment.length;
+    }
+    this.totalDistance = distance;
+  }
 
   // 两点间距离（米），自带计算方法
-  distanceBetween(p0, p1) {
+  distanceBetween0(p0, p1) {
     const dx2 = (p1.lng - p0.lng) ** 2 * this.latCos2;
     const dy2 = (p1.lat - p0.lat) ** 2;
     return ((dx2 + dy2) ** .5) / 180 * Math.PI * this.RADIUS;
   }
   // 两点间距离（米），可接受自定义方法
-  distanceBetweenPoints(p0, p1) {
-    if(this.opt.distanceFunc) {
-      return this.opt.distanceFunc(p0, p1);
+  distanceBetween(p0, p1) {
+    if(this.distanceFunc) {
+      return this.distanceFunc(p0, p1);
     } else {
-      return this.distanceBetween(p0, p1);
+      return this.distanceBetween0(p0, p1);
     }
   }
 
@@ -137,7 +149,6 @@ export default class Route {
     // 根据 dis2 最小值，筛选出最近的点
     for(let i = 0; i < this.segments.length; i++) {
       const disRes = this.degDistance2ToSegment(point, this.segments[i]);
-      console.log()
       if(disRes.dis2 < minDis2) {
         minDis2 = disRes.dis2;
         index = i;
