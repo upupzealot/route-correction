@@ -25,8 +25,8 @@
 | centerLng / centerLat | Number | 包围盒中心经纬度 |
 | RADIUS | Number | 地球半径（包围盒做梯形正畸后近似） |
 ### 成员方法 
-#### nearest 方法
-`const res = nearest(point);`
+#### correct 方法
+`const res = correct(point);`
 ##### 入参
 | 字段 | 类型 | 描述 |
 |-----|------|-----|

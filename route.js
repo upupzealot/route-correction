@@ -142,7 +142,8 @@ export default class Route {
     };
   }
 
-  nearestBy(point) {
+  // 将点位纠偏到路线上最近的点
+  correct(point) {
     let minDis2 = Number.MAX_VALUE; // 
     let index = 0;
     let minDisRes = null;
