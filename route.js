@@ -47,7 +47,7 @@ export default class Route {
       const length = this.distanceBetween(p0, p1);
       // 计算路径朝向
       let direction = null;
-      const dLng = p1.lng - p0.lng;
+      const dLng = (p1.lng - p0.lng) * this.latCos;
       const dLat = p1.lat - p0.lat;
       if(!dLng) { // 正北或正南
         if(dLat > 0) { // 正北
