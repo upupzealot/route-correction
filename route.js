@@ -173,7 +173,7 @@ export default class Route {
   }
 
   // 根据行程（距起始点距离）反查坐标
-  positionAt(distance) {
+  pointAt(distance) {
     let dis = Math.max(0, distance);
     for (let i = 0; i < this.segments.length; i++) {
       const { p0, p1, length,
