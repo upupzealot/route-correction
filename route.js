@@ -170,4 +170,32 @@ export default class Route {
       distance: segment.distance + distance,
     };
   }
+
+  // 根据行程（距起始点距离）反查坐标
+  positionAt(distance) {
+    let dis = Math.max(0, distance);
+    for (let i = 0; i < this.segments.length; i++) {
+      const { p0, p1, length,
+        direction, directionInDegree } = this.segments[i];
+      if(dis < length) {
+        const r = dis / length;
+        const lng = p0.lng * (1 - r) + p1.lng * r;
+        const lat = p0.lat * (1 - r) + p1.lat * r;
+        return {
+          lng, lat,
+          distance, direction, directionInDegree,
+        }
+      }
+      dis -= length;
+    }
+
+    const last = this.segments[this.segments.length - 1];
+    return {
+      lng: last.lng,
+      lat: last.lat,
+      distance: this.totalDistance,
+      direction: last.direction,
+      directionInDegree: last.directionInDegree,
+    }
+  }
 }
