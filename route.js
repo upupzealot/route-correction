@@ -192,8 +192,8 @@ export default class Route {
 
     const last = this.segments[this.segments.length - 1];
     return {
-      lng: last.lng,
-      lat: last.lat,
+      lng: last.p1.lng,
+      lat: last.p1.lat,
       distance: this.totalDistance,
       direction: last.direction,
       directionInDegree: last.directionInDegree,
